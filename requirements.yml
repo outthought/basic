@@ -9,8 +9,3 @@
 - src: git+ssh://git@github.com/SPSCommerce/ansible-role-cfn-stack.git
   path: roles
   name: stack
-
-- src: git+ssh://git@github.com/SPSCommerce/ansible-role-module-ssm.git
-  path: roles
-  name: ssm
-
