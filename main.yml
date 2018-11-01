@@ -17,6 +17,40 @@
       dest: "{{ playbook_dir }}/tmp/{{ environ }}.key"
       mode: 0600
 
+- name: deploy server
+  hosts:
+    - ubuntu16
+    # - amazon1
+  gather_facts: false
+  #run_once: "{{ run_once | default(False) }}"
+  environment:
+    AWS_DEFAULT_REGION: "{{ region }}"
+  vars:
+    ansible_ssh_private_key_file: "{{ playbook_dir }}/tmp/{{ environ }}.key"
+    ansible_asg_groups:
+      Instance: 'qualys'
+    image_group: ubuntu16
+    image_type: t2.small
+    keypair_name: "qualys_ami_test_deploy"
+    group: "internal"
+    termination_protection: false
+    stack_instance_tags:
+      Name: "{{ inventory_hostname }}"
+      "sps:owner": "techops@spscommerce.com"
+      "sps:unit": "techops"
+      "sps:env": "{{ environ }}"
+      "sps:hours_of_operation": "0000-2359"
+      "sps:product": "security"
+      "sps:subproduct": "qualys"
+    stack_name: "{{ environ }}-{{ shortname }}"
+    stack_use_iam: False
+
+  roles:
+    - name: stack role
+      role: stack
+      delegate_to: localhost
+      delegate_facts: true
+
 #- name: remove sudo requiretty so we can use pipelining
 #  hosts: example_servers
 #  ansible_ssh_pipelining: no

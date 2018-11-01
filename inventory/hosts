@@ -1,5 +1,5 @@
 [ubuntu16]
-qualys-target-ubuntu16.spsdev.in
+qualys-target-ubuntu16.spsdev.in image_group=ubuntu16
 
 [ubuntu16:vars]
 ansible_user=ubuntu
